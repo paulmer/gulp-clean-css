@@ -33,10 +33,6 @@ module.exports = (options, callback) => {
 
     new CleanCSS(_options).minify(content, (errors, css) => {
 
-      if (errors) {
-        return cb(new Error(errors.join(' ')));
-      }
-
       let details = {
         'stats': css.stats,
         'errors': css.errors,
@@ -49,6 +45,10 @@ module.exports = (options, callback) => {
         details['sourceMap'] = css.sourceMap;
       }
       _callback(details);
+
+      if (errors) {
+        return cb(new Error(errors.join(' ')));
+      }
 
       file.contents = new Buffer.from(css.styles);
 
